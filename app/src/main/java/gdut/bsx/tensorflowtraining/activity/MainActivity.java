@@ -46,6 +46,14 @@ import gdut.bsx.tensorflowtraining.ternsorflow.Classifier;
 import gdut.bsx.tensorflowtraining.ternsorflow.TensorFlowImageClassifier;
 import gdut.bsx.tensorflowtraining.utils.FileUtil;
 
+import static gdut.bsx.tensorflowtraining.utils.Configure.IMAGE_MEAN;
+import static gdut.bsx.tensorflowtraining.utils.Configure.IMAGE_STD;
+import static gdut.bsx.tensorflowtraining.utils.Configure.INPUT_NAME;
+import static gdut.bsx.tensorflowtraining.utils.Configure.INPUT_SIZE;
+import static gdut.bsx.tensorflowtraining.utils.Configure.LABEL_FILE;
+import static gdut.bsx.tensorflowtraining.utils.Configure.MODEL_FILE;
+import static gdut.bsx.tensorflowtraining.utils.Configure.OUTPUT_NAME;
+
 /**
  * MainActivity
  * @author baishixian
@@ -64,13 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String CURRENT_TAKE_PHOTO_URI = "currentTakePhotoUri";
 
 
-    private static final int INPUT_SIZE = 299;
-    private static final int IMAGE_MEAN = 299;
-    private static final float IMAGE_STD = 1;
-    private static final String INPUT_NAME = "Mul";
-    private static final String OUTPUT_NAME = "final_result";
-    private static final String MODEL_FILE = "file:///android_asset/model/optimized_graph.pb";
-    private static final String LABEL_FILE = "file:///android_asset/model/retrained_labels.txt";
 
     private Executor executor;
     private Uri currentTakePhotoUri;

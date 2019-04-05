@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -40,12 +41,16 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
@@ -55,18 +60,35 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import gdut.bsx.tensorflowtraining.R;
+import gdut.bsx.tensorflowtraining.activity.MainActivity;
+import gdut.bsx.tensorflowtraining.ternsorflow.Classifier;
+import gdut.bsx.tensorflowtraining.ternsorflow.TensorFlowImageClassifier;
 import gdut.bsx.tensorflowtraining.widget.AutoFitTextureView;
+
+import static gdut.bsx.tensorflowtraining.utils.Configure.IMAGE_MEAN;
+import static gdut.bsx.tensorflowtraining.utils.Configure.IMAGE_STD;
+import static gdut.bsx.tensorflowtraining.utils.Configure.INPUT_NAME;
+import static gdut.bsx.tensorflowtraining.utils.Configure.INPUT_SIZE;
+import static gdut.bsx.tensorflowtraining.utils.Configure.LABEL_FILE;
+import static gdut.bsx.tensorflowtraining.utils.Configure.MODEL_FILE;
+import static gdut.bsx.tensorflowtraining.utils.Configure.OUTPUT_NAME;
 
 /** Basic fragments for the Camera. */
 public class Camera2BasicFragment extends Fragment
@@ -209,6 +231,18 @@ public class Camera2BasicFragment extends Fragment
    */
 
 
+  private Executor executor;
+  private Uri currentTakePhotoUri;
+
+  private TextView result;
+  private ImageView ivPicture;
+  private Classifier classifier;
+
+  static {
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+  }
+
+
   private void showToast(final String s) {
     final Activity activity = getActivity();
     if (activity != null) {
@@ -284,12 +318,47 @@ public class Camera2BasicFragment extends Fragment
     return new Camera2BasicFragment();
   }
 
+
+
   /** Layout the preview and buttons. */
   @Override
   public View onCreateView(
           LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // 避免耗时任务占用 CPU 时间片造成UI绘制卡顿，提升启动页面加载速度
+    Looper.myQueue().addIdleHandler(idleHandler);
+
     return inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+
   }
+
+
+  /**
+   *  主线程消息队列空闲时（视图第一帧绘制完成时）处理耗时事件
+   */
+  MessageQueue.IdleHandler idleHandler = new MessageQueue.IdleHandler() {
+    @Override
+    public boolean queueIdle() {
+
+      if (classifier == null) {
+        // 创建 Classifier
+        classifier = TensorFlowImageClassifier.create(getActivity().getAssets(),
+                MODEL_FILE, LABEL_FILE, INPUT_SIZE, IMAGE_MEAN, IMAGE_STD, INPUT_NAME, OUTPUT_NAME);
+      }
+
+      // 初始化线程池
+      executor = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
+        @Override
+        public Thread newThread(@NonNull Runnable r) {
+          Thread thread = new Thread(r);
+          thread.setDaemon(true);
+          thread.setName("ThreadPool-ImageClassifier");
+          return thread;
+        }
+      });
+
+      return false;
+    }
+  };
 
 
   /** Connect the buttons to their event handler. */
@@ -560,13 +629,24 @@ public class Camera2BasicFragment extends Fragment
         public void run() {
           synchronized (lock) {
             if (runClassifier) {
-//              Log.e(TAG,"123");
-             // showToast("123");
+              classifyFrame();
             }
           }
           backgroundHandler.post(periodicClassify);
         }
       };
+
+  /** Classifies a frame from the preview stream. */
+  private void classifyFrame() {
+    if (classifier == null || getActivity() == null || cameraDevice == null) {
+      // It's important to not call showToast every frame, or else the app will starve and
+      // hang. updateActiveModel() already puts a error message up with showToast.
+      // showToast("Uninitialized Classifier or invalid context.");
+      return;
+    }
+    Bitmap bitmap = textureView.getBitmap(INPUT_SIZE, INPUT_SIZE);
+    startImageClassifier(bitmap);
+  }
 
   /** Creates a new {@link CameraCaptureSession} for camera preview. */
   private void createCameraPreviewSession() {
@@ -699,4 +779,57 @@ public class Camera2BasicFragment extends Fragment
           .create();
     }
   }
+
+
+  /**
+   * 开始图片识别匹配
+   * @param bitmap
+   */
+  private void startImageClassifier(final Bitmap bitmap) {
+    if(executor == null)
+      Log.e(TAG,"executor null");
+
+    executor.execute(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          Log.i(TAG, Thread.currentThread().getName() + " startImageClassifier");
+          Bitmap croppedBitmap = getScaleBitmap(bitmap, INPUT_SIZE);
+
+          Log.i(TAG, Thread.currentThread().getName() + " 123");
+
+          final List<Classifier.Recognition> results = classifier.recognizeImage(croppedBitmap);
+          Log.i(TAG, "startImageClassifier results: " + results);
+
+          showToast(String.format("results: %s", results));
+
+        } catch (IOException e) {
+          Log.e(TAG, "startImageClassifier getScaleBitmap " + e.getMessage());
+          e.printStackTrace();
+        }finally {
+          bitmap.recycle();
+        }
+      }
+    });
+  }
+
+
+
+  /**
+   * 对图片进行缩放
+   * @param bitmap
+   * @param size
+   * @return
+   * @throws IOException
+   */
+  private static Bitmap getScaleBitmap(Bitmap bitmap, int size) throws IOException {
+    int width = bitmap.getWidth();
+    int height = bitmap.getHeight();
+    float scaleWidth = ((float) size) / width;
+    float scaleHeight = ((float) size) / height;
+    Matrix matrix = new Matrix();
+    matrix.postScale(scaleWidth, scaleHeight);
+    return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+  }
+
 }

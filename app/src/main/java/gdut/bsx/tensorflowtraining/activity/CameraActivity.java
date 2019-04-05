@@ -27,6 +27,11 @@ public class CameraActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    if (!isTaskRoot()) {
+      finish();
+    }
+
     setContentView(R.layout.activity_camera);
     if (null == savedInstanceState) {
       getFragmentManager()
