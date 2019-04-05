@@ -235,7 +235,6 @@ public class Camera2BasicFragment extends Fragment
   private Uri currentTakePhotoUri;
 
   private TextView result;
-  private ImageView ivPicture;
   private Classifier classifier;
 
   static {
@@ -250,9 +249,23 @@ public class Camera2BasicFragment extends Fragment
           new Runnable() {
             @Override
             public void run() {
+              result.setText(s);
               Toast.makeText(activity,s,Toast.LENGTH_SHORT).show();
             }
           });
+    }
+  }
+
+  private void showResult(final String s) {
+    final Activity activity = getActivity();
+    if (activity != null) {
+      activity.runOnUiThread(
+              new Runnable() {
+                @Override
+                public void run() {
+                  result.setText(s);
+                }
+              });
     }
   }
 
@@ -366,6 +379,7 @@ public class Camera2BasicFragment extends Fragment
   public void onViewCreated(final View view, Bundle savedInstanceState) {
     // Get references to widgets.
     textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+    result = view.findViewById(R.id.result);
     // Start initial model.
   }
 
@@ -801,7 +815,7 @@ public class Camera2BasicFragment extends Fragment
           final List<Classifier.Recognition> results = classifier.recognizeImage(croppedBitmap);
           Log.i(TAG, "startImageClassifier results: " + results);
 
-          showToast(String.format("results: %s", results));
+          showResult(String.format("results: %s", results));
 
         } catch (IOException e) {
           Log.e(TAG, "startImageClassifier getScaleBitmap " + e.getMessage());

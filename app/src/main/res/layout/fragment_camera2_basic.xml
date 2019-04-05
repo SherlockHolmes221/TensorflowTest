@@ -16,10 +16,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="#ffffff"
     android:layout_height="match_parent">
 
     <gdut.bsx.tensorflowtraining.widget.AutoFitTextureView
         android:id="@+id/texture"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp" />
+
+    <TextView
+        android:padding="6dp"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:id="@+id/result"
+        android:height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
 </LinearLayout>
