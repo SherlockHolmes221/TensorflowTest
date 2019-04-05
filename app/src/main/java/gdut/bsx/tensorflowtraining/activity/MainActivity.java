@@ -65,11 +65,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private static final int INPUT_SIZE = 299;
-    private static final int IMAGE_MEAN = 128;
-    private static final float IMAGE_STD = 1f;
-    private static final String INPUT_NAME = "Mul:";//Mul
+    private static final int IMAGE_MEAN = 299;
+    private static final float IMAGE_STD = 1;
+    private static final String INPUT_NAME = "Mul";
     private static final String OUTPUT_NAME = "final_result";
-    private static final String MODEL_FILE = "file:///android_asset/model/retrained_graph.pb";
+    private static final String MODEL_FILE = "file:///android_asset/model/optimized_graph.pb";
     private static final String LABEL_FILE = "file:///android_asset/model/retrained_labels.txt";
 
     private Executor executor;

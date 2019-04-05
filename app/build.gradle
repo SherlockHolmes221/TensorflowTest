@@ -11,9 +11,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-        ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-        }
     }
     buildTypes {
         release {
@@ -35,6 +32,7 @@ dependencies {
 
     // TensorFlow
     implementation 'org.tensorflow:tensorflow-android:1.13.1'
+    implementation 'org.tensorflow:tensorflow-android:1.6.0'
 
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
