@@ -64,6 +64,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,6 +78,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
+import gdut.bsx.tensorflowtraining.MyApplication;
 import gdut.bsx.tensorflowtraining.R;
 import gdut.bsx.tensorflowtraining.activity.MainActivity;
 import gdut.bsx.tensorflowtraining.ternsorflow.Classifier;
@@ -417,6 +420,8 @@ public class Camera2BasicFragment extends Fragment
   @Override
   public void onDestroy() {
     super.onDestroy();
+    RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+    refWatcher.watch(this);
   }
 
   /**
@@ -641,12 +646,13 @@ public class Camera2BasicFragment extends Fragment
       new Runnable() {
         @Override
         public void run() {
+          //classifyFrame();
           synchronized (lock) {
             if (runClassifier) {
               classifyFrame();
             }
           }
-          backgroundHandler.post(periodicClassify);
+          backgroundHandler.postDelayed(periodicClassify,500);
         }
       };
 
@@ -808,17 +814,12 @@ public class Camera2BasicFragment extends Fragment
       public void run() {
         try {
           Log.i(TAG, Thread.currentThread().getName() + " startImageClassifier");
-          Bitmap croppedBitmap = getScaleBitmap(bitmap, INPUT_SIZE);
+         // Bitmap croppedBitmap = getScaleBitmap(bitmap, INPUT_SIZE);
 
-          Log.i(TAG, Thread.currentThread().getName() + " 123");
-
-          final List<Classifier.Recognition> results = classifier.recognizeImage(croppedBitmap);
-          Log.i(TAG, "startImageClassifier results: " + results);
-
+          final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
           showResult(String.format("results: %s", results));
 
-        } catch (IOException e) {
-          Log.e(TAG, "startImageClassifier getScaleBitmap " + e.getMessage());
+        }catch (Exception e){
           e.printStackTrace();
         }finally {
           bitmap.recycle();
