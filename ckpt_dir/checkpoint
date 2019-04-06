@@ -1,0 +1,4 @@
+model_checkpoint_path: "minist_model.ckpt"
+all_model_checkpoint_paths: "minist_model_000005 .ckpt"
+all_model_checkpoint_paths: "minist_model_000010 .ckpt"
+all_model_checkpoint_paths: "minist_model.ckpt"
