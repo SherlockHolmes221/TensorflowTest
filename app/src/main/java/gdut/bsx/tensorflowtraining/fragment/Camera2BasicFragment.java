@@ -60,6 +60,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,6 +117,8 @@ public class Camera2BasicFragment extends Fragment
 
   /** Max preview height that is guaranteed by Camera2 API */
   private static final int MAX_PREVIEW_HEIGHT = 1080;
+
+  private boolean isFrontCamera = true;
 
   /**
    * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a {@link
@@ -239,6 +242,10 @@ public class Camera2BasicFragment extends Fragment
   private Uri currentTakePhotoUri;
 
   private TextView result;
+  private Button changeCameraBtn;
+  private Button setActionBtn;
+  private ImageView actionImg;
+
   private Classifier classifier;
 
   static {
@@ -380,10 +387,32 @@ public class Camera2BasicFragment extends Fragment
 
   /** Connect the buttons to their event handler. */
   @Override
-  public void onViewCreated(final View view, Bundle savedInstanceState) {
+  public void onViewCreated(final View view, final Bundle savedInstanceState) {
     // Get references to widgets.
     textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+
+
     result = view.findViewById(R.id.result);
+    actionImg = view.findViewById(R.id.action_image);
+    setActionBtn =  view.findViewById(R.id.change_action);
+    changeCameraBtn = view.findViewById(R.id.change_camera);
+
+    setActionBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(actionImg.getVisibility() == View.GONE)
+          actionImg.setVisibility(View.VISIBLE);
+        else
+          actionImg.setVisibility(View.GONE);
+      }
+    });
+
+    changeCameraBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+      }
+    });
     // Start initial model.
   }
 
