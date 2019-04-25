@@ -32,6 +32,8 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTask"/>
 
+        <activity android:name=".activity.ScoreActivity"/>
+
         <provider
                 android:name="android.support.v4.content.FileProvider"
                 android:authorities="gdut.bsx.tensorflowtraining.fileprovider"

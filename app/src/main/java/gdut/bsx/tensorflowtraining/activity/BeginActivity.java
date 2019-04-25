@@ -28,6 +28,15 @@ public class BeginActivity extends AppCompatActivity{
                 startActivity(new Intent(BeginActivity.this,CameraActivity.class));
             }
         });
+
+
+        findViewById(R.id.act_begin_start).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                startActivity(new Intent(BeginActivity.this,ScoreActivity.class));
+                return true;
+            }
+        });
     }
 
 
