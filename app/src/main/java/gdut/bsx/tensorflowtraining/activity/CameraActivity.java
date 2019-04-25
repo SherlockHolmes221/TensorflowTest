@@ -28,9 +28,9 @@ public class CameraActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    if (!isTaskRoot()) {
-      finish();
-    }
+//    if (!isTaskRoot()) {
+//      finish();
+//    }
 
     setContentView(R.layout.activity_camera);
     if (null == savedInstanceState) {

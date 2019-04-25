@@ -80,6 +80,7 @@ import java.util.concurrent.TimeUnit;
 
 import gdut.bsx.tensorflowtraining.MyApplication;
 import gdut.bsx.tensorflowtraining.R;
+import gdut.bsx.tensorflowtraining.activity.CameraActivity;
 import gdut.bsx.tensorflowtraining.activity.MainActivity;
 import gdut.bsx.tensorflowtraining.ternsorflow.Classifier;
 import gdut.bsx.tensorflowtraining.ternsorflow.TensorFlowImageClassifier;
@@ -420,8 +421,8 @@ public class Camera2BasicFragment extends Fragment
   @Override
   public void onDestroy() {
     super.onDestroy();
-    RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
-    refWatcher.watch(this);
+//    RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+//    refWatcher.watch(this);
   }
 
   /**
@@ -827,8 +828,6 @@ public class Camera2BasicFragment extends Fragment
       }
     });
   }
-
-
 
   /**
    * 对图片进行缩放

@@ -20,6 +20,4 @@ public class MyApplication extends Application{
         MyApplication application = (MyApplication) context.getApplicationContext();
         return application.refWatcher;
     }
-
-
 }
