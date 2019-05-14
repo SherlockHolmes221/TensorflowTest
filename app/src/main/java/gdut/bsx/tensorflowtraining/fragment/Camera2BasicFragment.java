@@ -60,6 +60,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,6 +117,8 @@ public class Camera2BasicFragment extends Fragment
 
   /** Max preview height that is guaranteed by Camera2 API */
   private static final int MAX_PREVIEW_HEIGHT = 1080;
+
+  private boolean isFrontCamera = true;
 
   /**
    * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a {@link
@@ -239,6 +242,10 @@ public class Camera2BasicFragment extends Fragment
   private Uri currentTakePhotoUri;
 
   private TextView result;
+  private Button changeCameraBtn;
+  private Button setActionBtn;
+  private ImageView actionImg;
+
   private Classifier classifier;
 
   static {
@@ -380,10 +387,51 @@ public class Camera2BasicFragment extends Fragment
 
   /** Connect the buttons to their event handler. */
   @Override
-  public void onViewCreated(final View view, Bundle savedInstanceState) {
+  public void onViewCreated(final View view, final Bundle savedInstanceState) {
     // Get references to widgets.
     textureView = (AutoFitTextureView) view.findViewById(R.id.texture);
+
+
     result = view.findViewById(R.id.result);
+    actionImg = view.findViewById(R.id.action_image);
+    setActionBtn =  view.findViewById(R.id.change_action);
+    changeCameraBtn = view.findViewById(R.id.change_camera);
+
+    setActionBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(actionImg.getVisibility() == View.GONE)
+          actionImg.setVisibility(View.VISIBLE);
+        else
+          actionImg.setVisibility(View.GONE);
+      }
+    });
+
+    changeCameraBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.e(TAG, "changeCameraBtn:" );
+        isFrontCamera = !isFrontCamera;
+        closeCamera();
+        stopBackgroundThread();
+        System.gc();
+
+        openCamera(textureView.getWidth(),textureView.getHeight());
+        startBackgroundThread();
+//        setUpCameraOutputs(textureView.getWidth(),textureView.getHeight(),isFrontCamera);
+//        CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
+//        try {
+//          //manager.openCamera(cameraId,null,null);
+//       //   manager.openCamera(cameraId, stateCallback, backgroundHandler);
+//          Log.e(TAG, "open ");
+//        } catch (CameraAccessException e) {
+//          e.printStackTrace();
+//          Log.e(TAG, "error ");
+//        }
+
+        //openCamera(textureView.getWidth(),textureView.getHeight());
+      }
+    });
     // Start initial model.
   }
 
@@ -431,7 +479,7 @@ public class Camera2BasicFragment extends Fragment
    * @param width The width of available size for camera preview
    * @param height The height of available size for camera preview
    */
-  private void setUpCameraOutputs(int width, int height) {
+  private void setUpCameraOutputs(int width, int height,boolean isFrontCamera) {
     Activity activity = getActivity();
     CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
     try {
@@ -440,7 +488,11 @@ public class Camera2BasicFragment extends Fragment
 
         // We don't use a front facing camera in this sample.
         Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-        if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
+        if (isFrontCamera && facing != null && facing == CameraCharacteristics.LENS_FACING_BACK) {
+          continue;
+        }
+
+        if (!isFrontCamera && facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
           continue;
         }
 
@@ -522,6 +574,7 @@ public class Camera2BasicFragment extends Fragment
         }
 
         this.cameraId = cameraId;
+        Log.e(TAG, "cameraId: "+cameraId );
         return;
       }
     } catch (CameraAccessException e) {
@@ -560,7 +613,7 @@ public class Camera2BasicFragment extends Fragment
     } else {
       checkedPermissions = true;
     }
-    setUpCameraOutputs(width, height);
+    setUpCameraOutputs(width, height,isFrontCamera);
     configureTransform(width, height);
     Activity activity = getActivity();
     CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);

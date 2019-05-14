@@ -19,20 +19,64 @@
     android:background="#ffffff"
     android:layout_height="match_parent">
 
-    <gdut.bsx.tensorflowtraining.widget.AutoFitTextureView
-        android:id="@+id/texture"
+    <FrameLayout
         android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="0dp">
 
-    <TextView
-        android:padding="6dp"
-        android:textSize="15sp"
-        android:textColor="#000000"
-        android:id="@+id/result"
-        android:height="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <gdut.bsx.tensorflowtraining.widget.AutoFitTextureView
+            android:id="@+id/texture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/action_image"
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="bottom|center"
+            android:src="@drawable/yoga"
+            android:layout_width="500dp"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/xiangji"
+            android:padding="6dp"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:id="@+id/change_camera"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/yoga"
+            android:padding="6dp"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:id="@+id/change_action"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:id="@+id/result"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </LinearLayout>
