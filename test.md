@@ -20,12 +20,15 @@ WiFi支持|频率：2.4G和5G，协议：802.11a/b/g/n/ac。
 主要测试点及测试结果：
 ### 1. 冷启动：首次启动app的时间间隔
    指标：
-ThisTime：该Activity的启动耗时
-TotalTime: 应用自身启动耗时, ThisTime+应用application等资源启动时间
-WaitTime:系统启动应用耗时, TotalTime+系统资源启动时间
+- ThisTime：该Activity的启动耗时
+
+- TotalTime: 应用自身启动耗时, ThisTime+应用application等资源启动时间
+
+- WaitTime:系统启动应用耗时, TotalTime+系统资源启动时间
 (一般主要看TotalTime)
 
-  在as上执行下面的命令：（手机在WiFi条件下）
+
+在命令行执行：
 ``` 
 adb shell am start -W com.tencent.wifimanager/com.tencent.wifimanager.MainActivity
 adb shell am start -W com.snda.wifilocating/com.lantern.launcher.ui.MainActivity
@@ -39,7 +42,7 @@ ThisTime|466 509 547 |995 1007 980
 TotalTime|768  810  830 |995 1007 980    
 WaitTime|793 829 850|1015 1022 1000
 
-分析：腾讯WiFi管家和WiFi万能钥匙的TotalTime其实相差不是很大，从用户体验上来，在冷启动时，腾讯WiFi管家会出现一个Logo，然后能比较快进去主界面。WiFi万能钥匙冷启动时也会有一个Logo界面，然后是广告界面，再进入到主界面。从用户体验来看，个人感觉WiFi万能钥匙加载速度要慢一些。
+分析：从数据上看，腾讯WiFi管家的冷启动时间小于WiFi万能钥匙。从用户体验上来，在冷启动时，腾讯WiFi管家会出现一个Logo，然后能比较快进去主界面。WiFi万能钥匙冷启动时也会有一个Logo界面，然后是广告界面，再进入到主界面。从用户体验来看，个人感觉WiFi万能钥匙加载速度要慢一些。
 
 从数据上来看会有一个发现：
 发现一个情况：由于只是启动一个Activity的测试，正常情况下：displayStartTime与mLaunchStartTime指向的是同一时间点，也就是ThisTime应该等于TotalTime，WiFi万能钥匙的数据满足这一点。但是我们看到腾讯WiFi管家的ThisTime<TotalTime，这猜想是腾讯WiFi管家的MainActivity是后台而不是页面加载的Activity)
@@ -99,8 +102,8 @@ adb shell dumpsys meminfo  com.snda.wifilocating
 
 ![](https://upload-images.jianshu.io/upload_images/7769570-3005bddff2250fac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-用Total(实际占用的内存值)作为指标，可以看出两者占用内存(Total)的明显的差异:
-腾讯WiFi管家的Total为48078KB，WiFi万能钥匙的Total为136185KB。
+用Total(实际占用的内存值)作为指标，可以看出两者占用内存的明显的差异:
+腾讯WiFi管家占用内存为48078KB，WiFi万能钥匙占用内存为136185KB。
 
 下面用可视化的方式比较两个应用的内存使用情况进一步：
 
@@ -111,16 +114,17 @@ adb shell dumpsys meminfo  com.snda.wifilocating
 同样可以看出两者占用内存的明显的差异:
 腾讯WiFi管家的PPS0平均值在48047KB，而WiFi管家的PPS0平均值高达130066KB
 
-分析：腾讯WiFi管家的内存占用明显要比腾讯万能钥匙多。
+分析：腾讯WiFi管家的内存占用明显要比WiFi万能钥匙多。
 
 ## GPU渲染
 ### 过度渲染分析
 UI过度绘制简单的来说是指在一个界面中有很多元素，但是只需要更新某一小块的元素，App却把所有的元素都刷新一遍，这就造成过度绘制。
-蓝色，淡绿，淡红，深红代表了4种不同程度的Overdraw情况
+蓝色，淡绿，淡红，深红代表了4种不同程度的Overdraw情况。
+
 测试指标：
-1、控制过渡绘制为2x
-2、不允许存在4x过渡绘制
-3、不允许存在面积超过屏幕1/4的3x过渡绘制
+1. 控制过渡绘制为2x
+2. 不允许存在4x过渡绘制
+3. 不允许存在面积超过屏幕1/4的3x过渡绘制
 
 #### 腾讯WiFi管家几个主要界面的过度绘制如下图所示：
 ![](https://upload-images.jianshu.io/upload_images/7769570-53def79a0ec1ad36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -133,7 +137,7 @@ UI过度绘制简单的来说是指在一个界面中有很多元素，但是只
 连接WiFi界面有一个很神奇的情况，上图有体现，显示WiFi列表的listview是2x绘制，但是下拉的时候有个固定区域永远是1x绘制。
 
 3. 我的界面
-我的界面是相对来说重读渲染情况最少的，背景为蓝色，1x绘制，下面的view渲染是2x绘制，子view里面的item是3x绘制。可以说是比较好的UI渲染。
+我的界面是相对来说过度渲染情况最少的，背景为蓝色，1x绘制，下面的view渲染是2x绘制，子view里面的item是3x绘制。可以说是比较好的UI渲染。
 
 #### WiFi万能钥匙几个主要界面的过度绘制如下图所示：
 ![](https://upload-images.jianshu.io/upload_images/7769570-0d981589e3dccc4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -147,7 +151,7 @@ UI过度绘制简单的来说是指在一个界面中有很多元素，但是只
 
 每帧快于16ms即为流畅，而这根绿线所标示的高度即为16ms线，低于绿线即为流畅。
 
-我们对两款应用的WiFi连接界面的流畅度进行分析，可以看出， 腾讯WiFi管家大多数竖线在绿色横线一下，能保证每帧快于16ms，较为流畅。而WiFi万能钥匙有一部分较为不稳定，部分远远超出绿线。可见腾讯WiFi管家的流畅度好于WiFi万能钥匙。
+我们对两款应用的WiFi连接界面的流畅度进行分析，可以看出，腾讯WiFi管家大多数竖线在绿色横线一下，能保证每帧快于16ms，较为流畅。而WiFi万能钥匙有一部分远远超出绿线。可见腾讯WiFi管家的流畅度好于WiFi万能钥匙。
 
 ## 耗电分析
 用PowerTutor对两款应用作耗电量分析，场景为打开应用，之后一直亮着屏幕，两个应用切到后台，比较两个应用的耗电量。
@@ -181,7 +185,7 @@ UI过度绘制简单的来说是指在一个界面中有很多元素，但是只
 
 
 ## 功能分析
-用户选择下载应用的目的主要是连接WiFi，当然拓展功能也很大程度上能够吸粉。下面将对两款产品的功能主要功能作列举和对比分析。
+用户选择下载应用的目的主要是连接WiFi，当然拓展功能也很大程度上能够吸粉。下面将对两款产品的主要功能作列举和对比分析。
 
 ### 功能框架
 ![腾讯WiFi管家](https://upload-images.jianshu.io/upload_images/7769570-c91cf578c588e91a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -192,22 +196,21 @@ UI过度绘制简单的来说是指在一个界面中有很多元素，但是只
 分析和说明：
 1. 红色部分是两个应用都有的功能(其中安全检测这一个功能虽然说两个应用都有，但是腾讯WiFi管家的安全检测相对来说功能更加全面，包括WiFi安全加固、发现网上垃圾等等。WiFi万能钥匙的安全检测只有检测网络安全)，可以看出满足大多数用户使用需求的功能，比如说自动识别免费WiFi、安全检测等两者都有。
 2. 个人感觉腾讯WiFi管家在专业性这方面更强。对WiFi的一些硬核的功能提供得比较多也比较全面。
-3. 对比两个应用，两张图中谈绿色给出的是另外一个应用没有的核心功能。可以看出，腾讯WiFi管家的核心功能较多。
+3. 对比两个应用，两张图中淡绿色给出的是另外一个应用没有的核心功能。可以看出，腾讯WiFi管家的核心功能较多。
 、
 
 ## 用户交互分析
 ### 腾讯WiFi管家：
 
 优点：
-1.  从UI上看，腾讯WiFi管家淡绿色的风格给人的感觉较为舒服，WiFi列表对比WiFi万能钥匙不会太紧凑。
+1. 从UI上看，腾讯WiFi管家淡绿色的风格给人的感觉较为舒服，WiFi列表对比WiFi万能钥匙不会太紧凑。
 2. 广告相对来说少，对不想看广告的用户体检较好。
-3. 底部导航栏的突出安全一键连接的功能，引导用户连接免费WiFi。
-4. 用户引导方面做的比较好。
+3. 底部导航栏的突出安全一键连接的功能，引导用户连接免费WiFi。用户引导方面做的比较好
+4. 资讯页面的文案提示人性化。
 
 个人认为存在的一些问题：
 1. 登录：可以选择微信QQ和邮箱登录，但是要用账号登录没有拉起一键登录的选项。
-2. 一些可点击项的说明不清楚。在应用设置里面的H5专项测试入口，木兰测试入口和木兰测试页面这三个点击项感觉交待不清楚。
-3. 深度清理的时候没有提示自动下载了腾讯清理大师。
+2. 深度清理的时候没有提示自动下载了腾讯清理大师。
 
 
 ### WiFi万能钥匙：
