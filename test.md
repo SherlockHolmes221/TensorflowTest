@@ -8,12 +8,12 @@
 
 设备参数名字|参数内容
 :---:|:--:
-设备型号 |HUAWEI CAZ-TL220C01B387|
+设备型号 |HUAWEI CAZ-TL220C01B387
 Android版本| 7.0 API24
 处理器|8核 2GHz
 运行内存|4.0GB
 闪存|64GB
-WiFi支持|频率：2.4G和5G，协议：802.11a/b/g/n/ac。
+WiFi支持|频率：2.4G和5G，协议：802.11a/b/g/n/ac
 
 
 ## 响应
