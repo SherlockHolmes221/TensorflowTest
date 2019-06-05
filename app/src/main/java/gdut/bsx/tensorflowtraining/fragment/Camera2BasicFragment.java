@@ -24,8 +24,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -68,6 +70,7 @@ import android.widget.Toast;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -700,7 +703,6 @@ public class Camera2BasicFragment extends Fragment
       new Runnable() {
         @Override
         public void run() {
-          //classifyFrame();
           synchronized (lock) {
             if (runClassifier) {
               classifyFrame();
@@ -720,6 +722,31 @@ public class Camera2BasicFragment extends Fragment
     }
     Bitmap bitmap = textureView.getBitmap(INPUT_SIZE, INPUT_SIZE);
     startImageClassifier(bitmap);
+    //test
+    //change
+    //Bitmap bitmap = getImageFromAssetsFile("test_pic/test1.jpg");
+//    try {
+//      startImageClassifier(getScaleBitmap(bitmap,INPUT_SIZE));
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+  }
+
+  /**
+   * 从Assets中读取图片
+   */
+  private Bitmap getImageFromAssetsFile(String fileName) {
+    Bitmap image = null;
+    AssetManager am = getResources().getAssets();
+    try {
+      InputStream is = am.open(fileName);
+      image = BitmapFactory.decodeStream(is);
+      is.close();
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+    return image;
   }
 
   /** Creates a new {@link CameraCaptureSession} for camera preview. */
