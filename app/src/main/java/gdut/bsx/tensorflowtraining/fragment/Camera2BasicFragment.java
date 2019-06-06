@@ -22,6 +22,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -81,6 +82,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import gdut.bsx.tensorflowtraining.R;
+import gdut.bsx.tensorflowtraining.activity.ScoreActivity;
 import gdut.bsx.tensorflowtraining.ternsorflow.Classifier;
 import gdut.bsx.tensorflowtraining.ternsorflow.TensorFlowImageClassifier;
 import gdut.bsx.tensorflowtraining.widget.AutoFitTextureView;
@@ -125,11 +127,21 @@ public class Camera2BasicFragment extends Fragment
   Timer timer = new Timer();
   boolean isSetVisableGone = false;
 
+  int[] score = new int[10];
 
     /**
      * 显示动作框
      * 第一个动作在50-55s
-     * 第二个动作在
+     * 第二个动作在1min35-1min40
+     * 第三个动作在1min45-1min47
+     * 第四个动作在1min58-2min02
+     * 第五个动作在3min11-3min16
+     * 第六个动作在3min32-3min35
+     * 第七个动作在3min42-3min47
+     * 第八个动作在4min21-4min26
+     * 第九个动作在4min48-4min52
+     * 第十个动作在5min06-5min11
+     *
      */
   private void showChangePic(){
       getActivity().runOnUiThread(new Runnable() {		// UI thread
@@ -137,11 +149,51 @@ public class Camera2BasicFragment extends Fragment
           public void run() {
               Log.e(TAG, "run: ");
               if(isSetVisableGone) {
+                  stop();
                   actionImage.setVisibility(View.GONE);
 
-                  startTimer(5000);
+                  if(curPic == 0){
+                      int sum  = 0;
+                      for(int i = 0 ; i < 10 ;i++){
+                          sum += score[i];
+                      }
+                      //最后一张结束了，处理成绩，跳转了
+                      Intent intent = new Intent();
+                      intent.putExtra("score",sum);
+                      intent.setClass(getActivity(), ScoreActivity.class);
+                      startActivity(intent);
+                  }
+                  else if(curPic == 1){
+                      startTimer(40000);
+                  }
+                  else if(curPic == 2){
+                      startTimer(5000);
+                  }
+                  else if(curPic == 3){
+                      startTimer(11000);
+                  }
+                  else if(curPic == 4){
+                      startTimer(69000);
+                  }
+                  else if(curPic == 5){
+                      startTimer(16000);
+                  }
+                  else if(curPic == 6){
+                      startTimer(7000);
+                  }
+                  else if(curPic == 7){
+                      startTimer(34000);
+                  }
+                  else if(curPic == 8){
+                      startTimer(22000);
+                  }
+                  else if(curPic == 9){
+                      startTimer(14000);
+                  }
               }
+
               else {
+                  begin();
                   actionImage.setVisibility(View.VISIBLE);
                   if(curPic == 0){
                       actionImage.setImageResource(R.drawable.img_1);
@@ -173,14 +225,30 @@ public class Camera2BasicFragment extends Fragment
                       actionImage.setImageResource(R.drawable.img_10);
                   }
                   curPic = (curPic+1) % 10;
-                  //test
-                  startTimer(5000);
+                  if(curPic == 3 || curPic == 6){
+                      startTimer(3000);
+                  }else if(curPic == 0){
+                      startTimer(10000);
+                  }else
+                      startTimer(5000);
               }
 
               isSetVisableGone =  ! isSetVisableGone;
           }
 
       });
+  }
+
+  private void begin(){
+      synchronized (lock) {
+          runClassifier = true;
+      }
+  }
+
+  private void stop(){
+      synchronized (lock) {
+          runClassifier = false;
+      }
   }
 
     /**
@@ -509,8 +577,7 @@ public class Camera2BasicFragment extends Fragment
   @Override
   public void onResume() {
     super.onResume();
-    //change
-   // startBackgroundThread();
+    startBackgroundThread();
 
     // When the screen is turned off and turned back on, the SurfaceTexture is already
     // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
@@ -738,9 +805,9 @@ public class Camera2BasicFragment extends Fragment
     backgroundThread.start();
     backgroundHandler = new Handler(backgroundThread.getLooper());
     // Start the classification train & load an initial model.
-    synchronized (lock) {
-      runClassifier = true;
-    }
+//    synchronized (lock) {
+//      runClassifier = true;
+//    }
     backgroundHandler.post(periodicClassify);
   }
 
@@ -971,7 +1038,9 @@ public class Camera2BasicFragment extends Fragment
          // Bitmap croppedBitmap = getScaleBitmap(bitmap, INPUT_SIZE);
 
           final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
-          showResult(String.format("results: %s", results));
+
+          //showResult(String.format("results: %s", results));
+            countScore(results);
 
         }catch (Exception e){
           e.printStackTrace();
@@ -982,7 +1051,13 @@ public class Camera2BasicFragment extends Fragment
     });
   }
 
-  /**
+    private void countScore(List<Classifier.Recognition> result) {
+      for(Classifier.Recognition recognition: result){
+          Log.e(TAG, recognition.toString());
+      }
+    }
+
+    /**
    * 对图片进行缩放
    * @param bitmap
    * @param size

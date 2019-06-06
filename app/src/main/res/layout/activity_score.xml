@@ -23,11 +23,10 @@
         android:textColor="#c800be"
         android:fontFamily="casual"
         android:textSize="70dp"
-        android:id="@+id/act_score_score"
+        android:id="@+id/act_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="97"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/textView4" />
