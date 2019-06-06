@@ -121,16 +121,7 @@ public class Camera2BasicFragment extends Fragment
 
   private boolean isFrontCamera = true;
 
-  private ImageView imageView01;
-  private ImageView imageView02;
-  private ImageView imageView03;
-  private ImageView imageView04;
-  private ImageView imageView05;
-  private ImageView imageView06;
-  private ImageView imageView07;
-  private ImageView imageView08;
-  private ImageView imageView09;
-  private ImageView imageView10;
+  private ImageView actionImage;
 
   private VideoView videoView;
 
@@ -411,23 +402,11 @@ public class Camera2BasicFragment extends Fragment
     actionImg = view.findViewById(R.id.action_image);
     changeCameraBtn = view.findViewById(R.id.change_camera);
 
-    imageView01 = view.findViewById(R.id.action_image1);
-    imageView02 = view.findViewById(R.id.action_image2);
-    imageView03 = view.findViewById(R.id.action_image3);
-    imageView04 = view.findViewById(R.id.action_image4);
-    imageView05 = view.findViewById(R.id.action_image5);
-    imageView06 = view.findViewById(R.id.action_image6);
-    imageView07 = view.findViewById(R.id.action_image7);
-    imageView08 = view.findViewById(R.id.action_image8);
-    imageView09 = view.findViewById(R.id.action_image9);
-    imageView10 = view.findViewById(R.id.action_image10);
-
+    actionImage = view.findViewById(R.id.action_image);
     videoView = view.findViewById(R.id.video_view);
 
     String uri = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.yoga;
     videoView.setVideoURI(Uri.parse(uri));
-
-    //videoView.setVideoPath("file:///android_asset/video/yoga.mp4");
     videoView.start();
 
     Log.e(TAG, "videoView start");
@@ -443,18 +422,7 @@ public class Camera2BasicFragment extends Fragment
 
         openCamera(textureView.getWidth(),textureView.getHeight());
         startBackgroundThread();
-//        setUpCameraOutputs(textureView.getWidth(),textureView.getHeight(),isFrontCamera);
-//        CameraManager manager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
-//        try {
-//          //manager.openCamera(cameraId,null,null);
-//       //   manager.openCamera(cameraId, stateCallback, backgroundHandler);
-//          Log.e(TAG, "open ");
-//        } catch (CameraAccessException e) {
-//          e.printStackTrace();
-//          Log.e(TAG, "error ");
-//        }
-
-        //openCamera(textureView.getWidth(),textureView.getHeight());
+1
       }
     });
     // Start initial model.
@@ -752,8 +720,7 @@ public class Camera2BasicFragment extends Fragment
    * @param bitmap 要处理的Bitmap
    * @return 处理后的Bitmap
    */
-  public static Bitmap rotaingImageView(Bitmap bitmap)
-  {
+  public static Bitmap rotaingImageView(Bitmap bitmap) {
     // 旋转图片 动作
     Matrix matrix = new Matrix();
     matrix.postRotate(90);

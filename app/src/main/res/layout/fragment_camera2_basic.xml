@@ -32,88 +32,9 @@
             android:layout_height="match_parent" />
 
         <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image1"
+            android:id="@+id/action_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom|center"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image6"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image7"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image8"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom|center"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image9"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_yoga1" />
-
-        <ImageView
-            android:visibility="gone"
-            android:rotation="90"
-            android:id="@+id/action_image10"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_yoga1" />
-
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 
