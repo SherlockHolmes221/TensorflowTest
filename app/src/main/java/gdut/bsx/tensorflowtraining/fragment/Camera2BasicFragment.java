@@ -127,7 +127,7 @@ public class Camera2BasicFragment extends Fragment
   Timer timer = new Timer();
   boolean isSetVisableGone = false;
 
-  int[] score = new int[10];
+  float[] score = new float[10];
 
     /**
      * 显示动作框
@@ -147,7 +147,7 @@ public class Camera2BasicFragment extends Fragment
       getActivity().runOnUiThread(new Runnable() {		// UI thread
           @Override
           public void run() {
-              Log.e(TAG, "run: ");
+              //Log.e(TAG, "run: ");
               if(isSetVisableGone) {
                   stop();
                   actionImage.setVisibility(View.GONE);
@@ -547,7 +547,7 @@ public class Camera2BasicFragment extends Fragment
     String uri = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.yoga;
     videoView.setVideoURI(Uri.parse(uri));
     videoView.start();
-    Log.e(TAG, "videoView start");
+    //Log.e(TAG, "videoView start");
     //test
     startTimer(50000);
 
@@ -842,6 +842,7 @@ public class Camera2BasicFragment extends Fragment
 
   /** Classifies a frame from the preview stream. */
   private void classifyFrame() {
+      Log.e(TAG, "classifyFrame: ");
     if (classifier == null || getActivity() == null || cameraDevice == null) {
       // It's important to not call showToast every frame, or else the app will starve and
       // hang. updateActiveModel() already puts a error message up with showToast.
@@ -1039,8 +1040,8 @@ public class Camera2BasicFragment extends Fragment
 
           final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
 
-          //showResult(String.format("results: %s", results));
-            countScore(results);
+          showResult(String.format("results: %s", results));
+          countScore(results);
 
         }catch (Exception e){
           e.printStackTrace();
@@ -1052,8 +1053,15 @@ public class Camera2BasicFragment extends Fragment
   }
 
     private void countScore(List<Classifier.Recognition> result) {
+        Log.e(TAG, String.valueOf(curPic));
       for(Classifier.Recognition recognition: result){
-          Log.e(TAG, recognition.toString());
+          Log.e(TAG, recognition.getId() + recognition.getConfidence());
+      }
+
+        Log.e(TAG, "countScore: "+result.get(0).getId());
+
+      if(result.get(0).getId().equals(String.valueOf(curPic))){
+          score[curPic-1] =  Math.max(score[curPic-1],result.get(0).getConfidence());
       }
     }
 

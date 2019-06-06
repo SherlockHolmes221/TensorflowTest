@@ -141,28 +141,21 @@ public class TensorFlowImageClassifier implements Classifier {
             floatValues[i * 3 + 2] = ((val & 0xFF) - imageMean) / imageStd;
         }
         Trace.endSection();
-        Log.e(TAG, "243");
 
         // Copy the input data into TensorFlow.
         Trace.beginSection("feed");
         inferenceInterface.feed(inputName, floatValues, 1, inputSize, inputSize, 3);
         Trace.endSection();
 
-        Log.e(TAG, "789");
-
         // Run the inference call.
         Trace.beginSection("run");
         inferenceInterface.run(outputNames, logStats);
         Trace.endSection();
 
-        Log.e(TAG, "-09-0=-");
-
         // Copy the output Tensor back into the output array.
         Trace.beginSection("fetch");
         inferenceInterface.fetch(outputName, outputs);
         Trace.endSection();
-
-        Log.e(TAG, "-09-0=-");
 
         // Find the best classifications.
         PriorityQueue<Recognition> pq =
@@ -176,7 +169,6 @@ public class TensorFlowImageClassifier implements Classifier {
                             }
                         });
 
-        Log.e(TAG, "-09-0=-");
         for (int i = 0; i < outputs.length; ++i) {
             if (outputs[i] > THRESHOLD) {
                 pq.add(
@@ -190,8 +182,6 @@ public class TensorFlowImageClassifier implements Classifier {
             recognitions.add(pq.poll());
         }
         Trace.endSection(); // "recognizeImage"
-
-        Log.e(TAG, "78988");
 
         return recognitions;
     }
