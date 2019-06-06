@@ -77,6 +77,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.Semaphore;
@@ -124,7 +126,79 @@ public class Camera2BasicFragment extends Fragment
   private ImageView actionImage;
 
   private VideoView videoView;
+  private int curPic = 0;
+  Timer timer = new Timer();
+  boolean isSetVisableGone = false;
 
+
+    /**
+     * 显示动作框
+     */
+  private void showChangePic(){
+      getActivity().runOnUiThread(new Runnable() {		// UI thread
+          @Override
+          public void run() {
+              Log.e(TAG, "run: ");
+              if(isSetVisableGone) {
+                  actionImage.setVisibility(View.GONE);
+
+                  startTimer(5000);
+              }
+              else {
+                  actionImage.setVisibility(View.VISIBLE);
+                  if(curPic == 0){
+                      actionImage.setImageResource(R.drawable.img_1);
+                  }else if(curPic == 1){
+                      actionImage.setImageResource(R.drawable.img_2);
+                  }
+                  else if(curPic == 2){
+                      actionImage.setImageResource(R.drawable.img_3);
+                  }
+                  else if(curPic == 3){
+                      actionImage.setImageResource(R.drawable.img_4);
+                  }
+                  else if(curPic == 4){
+                      actionImage.setImageResource(R.drawable.img_5);
+                  }
+                  else if(curPic == 5){
+                      actionImage.setImageResource(R.drawable.img_6);
+                  }
+                  else if(curPic == 6){
+                      actionImage.setImageResource(R.drawable.img_7);
+                  }
+                  else if(curPic == 7){
+                      actionImage.setImageResource(R.drawable.img_8);
+                  }
+                  else if(curPic == 8){
+                      actionImage.setImageResource(R.drawable.img_9);
+                  }
+                  else if(curPic == 9){
+                      actionImage.setImageResource(R.drawable.img_10);
+                  }
+                  curPic = (curPic+1) % 10;
+                  //test
+                  startTimer(5000);
+              }
+
+              isSetVisableGone =  ! isSetVisableGone;
+          }
+
+      });
+  }
+
+    /**
+     * 执行定时任务
+     * @param time
+     */
+  private void startTimer(int time){
+      Handler handler = new Handler();
+      handler.postDelayed(new Runnable() {
+          @Override
+          public void run() {
+              showChangePic();
+          }
+      },time);
+  }
 
   /**
    * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a {@link
@@ -408,8 +482,9 @@ public class Camera2BasicFragment extends Fragment
     String uri = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.yoga;
     videoView.setVideoURI(Uri.parse(uri));
     videoView.start();
-
     Log.e(TAG, "videoView start");
+    //test
+    startTimer(50000);
 
     changeCameraBtn.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -422,7 +497,6 @@ public class Camera2BasicFragment extends Fragment
 
         openCamera(textureView.getWidth(),textureView.getHeight());
         startBackgroundThread();
-1
       }
     });
     // Start initial model.
@@ -433,13 +507,13 @@ public class Camera2BasicFragment extends Fragment
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-   // startBackgroundThread();
   }
 
   @Override
   public void onResume() {
     super.onResume();
-    startBackgroundThread();
+    //change
+   // startBackgroundThread();
 
     // When the screen is turned off and turned back on, the SurfaceTexture is already
     // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
