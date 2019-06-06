@@ -66,6 +66,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.squareup.leakcanary.RefWatcher;
 
@@ -82,10 +83,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import gdut.bsx.tensorflowtraining.MyApplication;
 import gdut.bsx.tensorflowtraining.R;
-import gdut.bsx.tensorflowtraining.activity.CameraActivity;
-import gdut.bsx.tensorflowtraining.activity.MainActivity;
 import gdut.bsx.tensorflowtraining.ternsorflow.Classifier;
 import gdut.bsx.tensorflowtraining.ternsorflow.TensorFlowImageClassifier;
 import gdut.bsx.tensorflowtraining.widget.AutoFitTextureView;
@@ -122,6 +120,20 @@ public class Camera2BasicFragment extends Fragment
   private static final int MAX_PREVIEW_HEIGHT = 1080;
 
   private boolean isFrontCamera = true;
+
+  private ImageView imageView01;
+  private ImageView imageView02;
+  private ImageView imageView03;
+  private ImageView imageView04;
+  private ImageView imageView05;
+  private ImageView imageView06;
+  private ImageView imageView07;
+  private ImageView imageView08;
+  private ImageView imageView09;
+  private ImageView imageView10;
+
+  private VideoView videoView;
+
 
   /**
    * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a {@link
@@ -246,7 +258,7 @@ public class Camera2BasicFragment extends Fragment
 
   private TextView result;
   private Button changeCameraBtn;
-  private Button setActionBtn;
+ // private Button setActionBtn;
   private ImageView actionImg;
 
   private Classifier classifier;
@@ -397,18 +409,28 @@ public class Camera2BasicFragment extends Fragment
 
     result = view.findViewById(R.id.result);
     actionImg = view.findViewById(R.id.action_image);
-    setActionBtn =  view.findViewById(R.id.change_action);
     changeCameraBtn = view.findViewById(R.id.change_camera);
 
-    setActionBtn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if(actionImg.getVisibility() == View.GONE)
-          actionImg.setVisibility(View.VISIBLE);
-        else
-          actionImg.setVisibility(View.GONE);
-      }
-    });
+    imageView01 = view.findViewById(R.id.action_image1);
+    imageView02 = view.findViewById(R.id.action_image2);
+    imageView03 = view.findViewById(R.id.action_image3);
+    imageView04 = view.findViewById(R.id.action_image4);
+    imageView05 = view.findViewById(R.id.action_image5);
+    imageView06 = view.findViewById(R.id.action_image6);
+    imageView07 = view.findViewById(R.id.action_image7);
+    imageView08 = view.findViewById(R.id.action_image8);
+    imageView09 = view.findViewById(R.id.action_image9);
+    imageView10 = view.findViewById(R.id.action_image10);
+
+    videoView = view.findViewById(R.id.video_view);
+
+    String uri = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.yoga;
+    videoView.setVideoURI(Uri.parse(uri));
+
+    //videoView.setVideoPath("file:///android_asset/video/yoga.mp4");
+    videoView.start();
+
+    Log.e(TAG, "videoView start");
 
     changeCameraBtn.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -722,14 +744,27 @@ public class Camera2BasicFragment extends Fragment
     }
     Bitmap bitmap = textureView.getBitmap(INPUT_SIZE, INPUT_SIZE);
     startImageClassifier(bitmap);
-    //test
-    //change
-    //Bitmap bitmap = getImageFromAssetsFile("test_pic/test1.jpg");
-//    try {
-//      startImageClassifier(getScaleBitmap(bitmap,INPUT_SIZE));
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
+
+  }
+
+  /**
+   * 旋转图片
+   * @param bitmap 要处理的Bitmap
+   * @return 处理后的Bitmap
+   */
+  public static Bitmap rotaingImageView(Bitmap bitmap)
+  {
+    // 旋转图片 动作
+    Matrix matrix = new Matrix();
+    matrix.postRotate(90);
+    // 创建新的图片
+    Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+            bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    if (resizedBitmap != bitmap && bitmap != null && !bitmap.isRecycled()){
+      bitmap.recycle();
+      bitmap = null;
+    }
+    return resizedBitmap;
   }
 
   /**

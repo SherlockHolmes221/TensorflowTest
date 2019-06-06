@@ -13,16 +13,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff"
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp">
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <gdut.bsx.tensorflowtraining.widget.AutoFitTextureView
             android:id="@+id/texture"
@@ -31,52 +33,120 @@
 
         <ImageView
             android:visibility="gone"
-            android:id="@+id/action_image"
-            android:layout_marginBottom="30dp"
+            android:rotation="90"
+            android:id="@+id/action_image1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom|center"
-            android:src="@drawable/yoga"
-            android:layout_width="500dp"
-            android:layout_height="match_parent" />
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_yoga1" />
+
+        <ImageView
+            android:visibility="gone"
+            android:rotation="90"
+            android:id="@+id/action_image10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_yoga1" />
+
 
     </FrameLayout>
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
+    <Button
+        android:id="@+id/change_camera"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/xiangji"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
-            android:layout_margin="5dp"
-            android:layout_gravity="center"
-            android:background="@drawable/xiangji"
-            android:padding="6dp"
-            android:textSize="15sp"
-            android:textColor="#000000"
-            android:id="@+id/change_camera"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+    <TextView
+        android:id="@+id/result"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="30dp"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:layout_margin="5dp"
-            android:layout_gravity="center"
-            android:background="@drawable/yoga"
-            android:padding="6dp"
-            android:textSize="15sp"
-            android:textColor="#000000"
-            android:id="@+id/change_action"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
 
-        <TextView
-            android:layout_weight="1"
-            android:padding="6dp"
-            android:textSize="15sp"
-            android:textColor="#000000"
-            android:id="@+id/result"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
