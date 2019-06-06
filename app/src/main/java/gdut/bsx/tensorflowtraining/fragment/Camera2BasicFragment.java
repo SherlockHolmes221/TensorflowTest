@@ -53,8 +53,6 @@ import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
@@ -68,8 +66,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.squareup.leakcanary.RefWatcher;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -78,7 +74,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.Semaphore;
@@ -133,6 +128,8 @@ public class Camera2BasicFragment extends Fragment
 
     /**
      * 显示动作框
+     * 第一个动作在50-55s
+     * 第二个动作在
      */
   private void showChangePic(){
       getActivity().runOnUiThread(new Runnable() {		// UI thread
@@ -161,7 +158,7 @@ public class Camera2BasicFragment extends Fragment
                       actionImage.setImageResource(R.drawable.img_5);
                   }
                   else if(curPic == 5){
-                      actionImage.setImageResource(R.drawable.img_6);
+                      actionImage.setImageResource(R.drawable.img_2);
                   }
                   else if(curPic == 6){
                       actionImage.setImageResource(R.drawable.img_7);
