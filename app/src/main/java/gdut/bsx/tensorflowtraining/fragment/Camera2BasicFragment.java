@@ -131,16 +131,16 @@ public class Camera2BasicFragment extends Fragment
 
     /**
      * 显示动作框
-     * 第一个动作在50-55s
-     * 第二个动作在1min35-1min40
-     * 第三个动作在1min45-1min47
-     * 第四个动作在1min58-2min02
-     * 第五个动作在3min11-3min16
-     * 第六个动作在3min32-3min35
-     * 第七个动作在3min42-3min47
-     * 第八个动作在4min21-4min26
-     * 第九个动作在4min48-4min52
-     * 第十个动作在5min06-5min11
+     * 第一个动作在39-44s
+     * 第二个动作在1min23-1min28
+     * 第三个动作在1min30-1min35
+     * 第四个动作在1min45-1min50
+     * 第五个动作在2min58-3min02
+     * 第六个动作在3min20-3min25
+     * 第七个动作在3min30-3min35
+     * 第八个动作在4min08-4min13
+     * 第九个动作在4min35-4min40
+     * 第十个动作在4min53-4min58
      *
      */
   private void showChangePic(){
@@ -165,31 +165,31 @@ public class Camera2BasicFragment extends Fragment
                       startActivity(intent);
                   }
                   else if(curPic == 1){
-                      startTimer(40000);
+                      startTimer(38000);
                   }
                   else if(curPic == 2){
-                      startTimer(5000);
+                      startTimer(2000);
                   }
                   else if(curPic == 3){
-                      startTimer(11000);
+                      startTimer(10000);
                   }
                   else if(curPic == 4){
-                      startTimer(69000);
+                      startTimer(68000);
                   }
                   else if(curPic == 5){
-                      startTimer(16000);
+                      startTimer(18000);
                   }
                   else if(curPic == 6){
-                      startTimer(7000);
+                      startTimer(5000);
                   }
                   else if(curPic == 7){
-                      startTimer(34000);
+                      startTimer(33000);
                   }
                   else if(curPic == 8){
                       startTimer(22000);
                   }
                   else if(curPic == 9){
-                      startTimer(14000);
+                      startTimer(13000);
                   }
               }
 
@@ -211,7 +211,7 @@ public class Camera2BasicFragment extends Fragment
                       actionImage.setImageResource(R.drawable.img_5);
                   }
                   else if(curPic == 5){
-                      actionImage.setImageResource(R.drawable.img_2);
+                      actionImage.setImageResource(R.drawable.img_6);
                   }
                   else if(curPic == 6){
                       actionImage.setImageResource(R.drawable.img_7);
@@ -227,7 +227,7 @@ public class Camera2BasicFragment extends Fragment
                   }
                   curPic = (curPic+1) % 10;
                   if(curPic == 3 || curPic == 6){
-                      startTimer(3000);
+                      startTimer(5000);
                   }else if(curPic == 0){
                       startTimer(10000);
                   }else
