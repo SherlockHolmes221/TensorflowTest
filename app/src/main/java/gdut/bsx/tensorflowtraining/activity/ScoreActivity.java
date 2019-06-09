@@ -20,7 +20,7 @@ public class ScoreActivity extends AppCompatActivity{
         setContentView(R.layout.activity_score);
 
         Intent intent = getIntent();
-        score = intent.getIntExtra("score",0);
+        score = (int)intent.getFloatExtra("score",0);
 
         initEvent();
     }

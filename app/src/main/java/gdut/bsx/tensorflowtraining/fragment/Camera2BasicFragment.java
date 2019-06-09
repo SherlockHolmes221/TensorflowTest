@@ -153,10 +153,11 @@ public class Camera2BasicFragment extends Fragment
                   actionImage.setVisibility(View.GONE);
 
                   if(curPic == 0){
-                      int sum  = 0;
+                      float sum  = 0;
                       for(int i = 0 ; i < 10 ;i++){
-                          sum += score[i];
+                          sum += score[i] * 100;
                       }
+                      sum /= 10.0;
                       //最后一张结束了，处理成绩，跳转了
                       Intent intent = new Intent();
                       intent.putExtra("score",sum);
@@ -549,7 +550,7 @@ public class Camera2BasicFragment extends Fragment
     videoView.start();
     //Log.e(TAG, "videoView start");
     //test
-    startTimer(50000);
+    startTimer(39000);
 
     changeCameraBtn.setOnClickListener(new View.OnClickListener() {
       @Override
