@@ -20,8 +20,11 @@ public class ScoreActivity extends AppCompatActivity{
         setContentView(R.layout.activity_score);
 
         Intent intent = getIntent();
-        score = (int)intent.getFloatExtra("score",0) + 50;
+        score = (int)intent.getFloatExtra("score",0) + 60;
 
+        if(score > 90){
+            score -= 5;
+        }
         initEvent();
     }
 

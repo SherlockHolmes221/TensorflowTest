@@ -74,6 +74,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -129,7 +130,11 @@ public class Camera2BasicFragment extends Fragment
 
   float[] score = new float[10];
 
-  boolean isShowVideo = false;
+  boolean isShowVideo = true;
+
+  boolean isShowToast = false;
+
+  private ImageView excellentIv;
 
     /**
      * 显示动作框
@@ -298,12 +303,13 @@ public class Camera2BasicFragment extends Fragment
   private void begin(){
       synchronized (lock) {
           runClassifier = true;
+          isShowToast = true;
       }
   }
 
   private void stop(){
       synchronized (lock) {
-          //runClassifier = false;
+          runClassifier = false;
       }
   }
 
@@ -469,16 +475,16 @@ public class Camera2BasicFragment extends Fragment
   }
 
   private void showResult(final String s) {
-    final Activity activity = getActivity();
-    if (activity != null) {
-      activity.runOnUiThread(
-              new Runnable() {
-                @Override
-                public void run() {
-                  result.setText(s);
-                }
-              });
-    }
+//    final Activity activity = getActivity();
+//    if (activity != null) {
+//      activity.runOnUiThread(
+//              new Runnable() {
+//                @Override
+//                public void run() {
+//                  result.setText(s);
+//                }
+//              });
+//    }
   }
 
   /**
@@ -600,18 +606,19 @@ public class Camera2BasicFragment extends Fragment
     actionImage = view.findViewById(R.id.action_image);
     videoView = view.findViewById(R.id.video_view);
 
+      excellentIv  = view.findViewById(R.id.img_excellent);
 
     String uri = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.yoga;
     videoView.setVideoURI(Uri.parse(uri));
 
-      startTimer(2000);
+      //startTimer(2000);
 
-//      //这里是video开始的
-//      videoView.setVisibility(View.VISIBLE);
-//    videoView.start();
-//    //Log.e(TAG, "videoView start");
-//    //test
-//    startTimer(39000);
+      //这里是video开始的
+      videoView.setVisibility(View.VISIBLE);
+    videoView.start();
+    //Log.e(TAG, "videoView start");
+    //test
+    startTimer(39000);
 
     changeCameraBtn.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -1173,36 +1180,81 @@ public class Camera2BasicFragment extends Fragment
                   result.get(0).getConfidence());
       }
 
+
+      Log.e("isShowToast", String.valueOf(isShowToast));
+
+      if(isShowToast){
+          Random rand =new Random();
+          final int i=rand.nextInt(100);
+
+          Log.e("isShowToast", "i: "+i );
+
+          getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+//                  excellentIv.setImageResource(R.drawable.excellent);
+                  if(i % 5 == 0){
+                      Log.e("isShowToast", "0" );
+                      excellentIv.setImageResource(R.drawable.excellent);
+                  }else if(i % 5 == 1){
+                      Log.e("isShowToast", "1" );
+                      excellentIv.setImageResource(R.drawable.cool);
+                  }else if(i % 5 == 2){
+                      Log.e("isShowToast", "2" );
+                      excellentIv.setImageResource(R.drawable.bad);
+                  }else if(i % 5 == 3){
+                      Log.e("isShowToast", "3" );
+                      excellentIv.setImageResource(R.drawable.good);
+                  }else if(i % 5 == 4){
+                      Log.e("isShowToast", "4" );
+                      excellentIv.setImageResource(R.drawable.perfect);
+                  }
+                  excellentIv.setVisibility(View.VISIBLE);
+
+                  Handler handler = new Handler();
+                  handler.postDelayed(new Runnable() {
+                      @Override
+                      public void run() {
+                          excellentIv.setVisibility(View.GONE);
+                      }
+                  },2000);
+              }
+          });
+          isShowToast = false;
+      }
+
+
+
       if(result.get(0).getId().equals("1") && curPic == 1){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("excellent" );
       }else if(result.get(0).getId().equals("7") && curPic == 2){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("good" );
       }else if(result.get(0).getId().equals("0") && curPic == 3){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("excellent" );
       }else if(result.get(0).getId().equals("2") && curPic == 4){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("good" );
       }else if(result.get(0).getId().equals("4") && curPic == 5){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("excellent" );
       }else if(result.get(0).getId().equals("5") && curPic == 6){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("good" );
       }else if(result.get(0).getId().equals("3") && curPic == 7){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("excellent" );
       }else if(result.get(0).getId().equals("9") && curPic == 8){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("good" );
       }else if(result.get(0).getId().equals("8") && curPic == 9){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("excellent" );
       }else if(result.get(0).getId().equals("6") && curPic == 0){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-          showToast("excellent!!!" + result.get(0).getConfidence());
+//          showToast("good" );
       }
     }
 
