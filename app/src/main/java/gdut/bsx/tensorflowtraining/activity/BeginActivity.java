@@ -37,6 +37,20 @@ public class BeginActivity extends AppCompatActivity{
                 return true;
             }
         });
+
+        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BeginActivity.this,TestActivity.class));
+            }
+        });
+
+        findViewById(R.id.score).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BeginActivity.this,CameraActivity.class));
+            }
+        });
     }
 
 

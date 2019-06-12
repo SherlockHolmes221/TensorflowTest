@@ -32,6 +32,10 @@
             android:screenOrientation="landscape"
             android:launchMode="singleTask"/>
 
+        <activity android:name=".activity.TestActivity"
+            android:screenOrientation="landscape"
+            android:launchMode="singleTask"/>
+
         <activity android:name=".activity.ScoreActivity"/>
 
         <provider

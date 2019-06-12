@@ -19,10 +19,10 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import gdut.bsx.tensorflowtraining.R;
-import gdut.bsx.tensorflowtraining.fragment.Camera2BasicFragment;
+import gdut.bsx.tensorflowtraining.fragment.Camera2BasicFragmentTest;
 
 /** Main {@code Activity} class for the Camera app. */
-public class CameraActivity extends Activity {
+public class TestActivity extends Activity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class CameraActivity extends Activity {
     if (null == savedInstanceState) {
       getFragmentManager()
           .beginTransaction()
-          .replace(R.id.container, Camera2BasicFragment.newInstance())
+          .replace(R.id.container, Camera2BasicFragmentTest.newInstance())
           .commit();
     }
   }
