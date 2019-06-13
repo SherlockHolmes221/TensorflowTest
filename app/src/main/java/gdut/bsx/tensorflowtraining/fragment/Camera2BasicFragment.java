@@ -250,7 +250,8 @@ public class Camera2BasicFragment extends Fragment
 
               else {
                   begin();
-                  actionImage.setVisibility(View.VISIBLE);
+                  if(curPic != 7)
+                      actionImage.setVisibility(View.VISIBLE);
                   if(curPic == 0){
                       actionImage.setImageResource(R.drawable.img_1);
                   }else if(curPic == 1){
@@ -272,7 +273,7 @@ public class Camera2BasicFragment extends Fragment
                       actionImage.setImageResource(R.drawable.img_7);
                   }
                   else if(curPic == 7){
-                      actionImage.setImageResource(R.drawable.img_8);
+                      //actionImage.setImageResource(R.drawable.img_8);
                   }
                   else if(curPic == 8){
                       actionImage.setImageResource(R.drawable.img_9);
@@ -911,7 +912,7 @@ public class Camera2BasicFragment extends Fragment
 
   /** Classifies a frame from the preview stream. */
   private void classifyFrame() {
-      Log.e(TAG, "classifyFrame: ");
+      //Log.e(TAG, "classifyFrame: ");
     if (classifier == null || getActivity() == null || cameraDevice == null) {
       // It's important to not call showToast every frame, or else the app will starve and
       // hang. updateActiveModel() already puts a error message up with showToast.
@@ -919,7 +920,8 @@ public class Camera2BasicFragment extends Fragment
       return;
     }
     Bitmap bitmap = textureView.getBitmap(INPUT_SIZE, INPUT_SIZE);
-    startImageClassifier(bitmap);
+   // Log.e("classifyFrame", "begin:" +curPic+ " time:" + String.valueOf(System.currentTimeMillis()));
+    startImageClassifier(bitmap,System.currentTimeMillis());
 
   }
 
@@ -1096,9 +1098,11 @@ public class Camera2BasicFragment extends Fragment
    * 开始图片识别匹配
    * @param bitmap
    */
-  private void startImageClassifier(final Bitmap bitmap) {
+  private void startImageClassifier(final Bitmap bitmap, final long time) {
     if(executor == null)
       Log.e(TAG,"executor null");
+
+
 
     executor.execute(new Runnable() {
       @Override
@@ -1109,6 +1113,7 @@ public class Camera2BasicFragment extends Fragment
 
           final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
 
+            Log.e("classifyFrame", "end:" +curPic+ " time:" + String.valueOf(System.currentTimeMillis()-time));
 //          showResult(String.format("results: %s", results));
           countScore(results);
 
@@ -1183,7 +1188,7 @@ public class Camera2BasicFragment extends Fragment
 
       Log.e("isShowToast", String.valueOf(isShowToast));
 
-      if(isShowToast){
+      if(isShowToast && curPic != 8){
           Random rand =new Random();
           final int i=rand.nextInt(100);
 
@@ -1227,34 +1232,24 @@ public class Camera2BasicFragment extends Fragment
 
       if(result.get(0).getId().equals("1") && curPic == 1){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
       }else if(result.get(0).getId().equals("7") && curPic == 2){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
       }else if(result.get(0).getId().equals("0") && curPic == 3){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
       }else if(result.get(0).getId().equals("2") && curPic == 4){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
       }else if(result.get(0).getId().equals("4") && curPic == 5){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
       }else if(result.get(0).getId().equals("5") && curPic == 6){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
       }else if(result.get(0).getId().equals("3") && curPic == 7){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
       }else if(result.get(0).getId().equals("9") && curPic == 8){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
       }else if(result.get(0).getId().equals("8") && curPic == 9){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
       }else if(result.get(0).getId().equals("6") && curPic == 0){
           score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
       }
     }
 
