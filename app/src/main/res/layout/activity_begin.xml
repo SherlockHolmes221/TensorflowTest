@@ -2,88 +2,115 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffcadd"
+    android:background="@drawable/bg"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:id="@+id/action1"
+        android:layout_width="17dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginTop="12dp"
-        android:text="体式2"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="308dp"
+        android:gravity="center"
+        android:text="站立前驱式"
         android:textColor="#000000"
-        android:textSize="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/test" />
-
-    <gdut.bsx.tensorflowtraining.widget.RoundImageViewByXfermode
-        android:id="@+id/test"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="80dp"
-        android:layout_marginTop="36dp"
-        android:src="@drawable/ic_yuga2"
-        app:borderRadius="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:type="round" />
-
-    <TextView
-        android:textStyle="bold"
-        android:fontFamily="casual"
-        android:textColor="#000000"
-        android:textSize="30dp"
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Yogo Tutor"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <gdut.bsx.tensorflowtraining.widget.RoundImageViewByXfermode
-        android:id="@+id/score"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="36dp"
-        android:src="@drawable/ic_yoga1"
-        app:borderRadius="30dp"
+    <TextView
+        android:id="@+id/action2"
+        android:layout_width="17dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="268dp"
+        android:gravity="center"
+        android:text="蛇式"
+        android:textColor="#000000"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:type="round" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/action3"
+        android:layout_width="17dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="272dp"
+        android:gravity="center"
+        android:text="新月式"
+        android:textColor="#000000"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<gdut.bsx.tensorflowtraining.widget.RoundImageViewByXfermode-->
+        <!--android:id="@+id/test"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_marginEnd="80dp"-->
+        <!--android:layout_marginTop="36dp"-->
+        <!--android:src="@drawable/ic_yuga2"-->
+        <!--app:borderRadius="30dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textView"-->
+        <!--app:type="round" />-->
+
+    <!--<TextView-->
+        <!--android:textStyle="bold"-->
+        <!--android:fontFamily="casual"-->
+        <!--android:textColor="#000000"-->
+        <!--android:textSize="30dp"-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:text="Yogo Tutor"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--<gdut.bsx.tensorflowtraining.widget.RoundImageViewByXfermode-->
+        <!--android:id="@+id/score"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_marginStart="80dp"-->
+        <!--android:layout_marginTop="36dp"-->
+        <!--android:src="@drawable/ic_yoga1"-->
+        <!--app:borderRadius="30dp"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textView"-->
+        <!--app:type="round" />-->
+
+    <TextView
+        android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="12dp"
-        android:text="体式1"
+        android:layout_marginBottom="120dp"
+        android:layout_marginStart="172dp"
+        android:text="套路"
         android:textColor="#000000"
         android:textSize="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score" />
-
-    <Button
-        android:textSize="30dp"
-        android:background="@drawable/corner_y"
-        android:textStyle="bold"
-        android:fontFamily="casual"
-        android:textAllCaps="false"
-        android:id="@+id/act_begin_start"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <!--<Button-->
+        <!--android:textSize="30dp"-->
+        <!--android:background="@drawable/corner_y"-->
+        <!--android:textStyle="bold"-->
+        <!--android:fontFamily="casual"-->
+        <!--android:textAllCaps="false"-->
+        <!--android:id="@+id/act_begin_start"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="32dp"-->
+        <!--android:text="Start"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent" />-->
 
 
 </android.support.constraint.ConstraintLayout>

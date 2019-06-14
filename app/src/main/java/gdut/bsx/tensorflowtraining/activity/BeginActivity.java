@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import gdut.bsx.tensorflowtraining.R;
+import gdut.bsx.tensorflowtraining.utils.Configure;
 
 public class BeginActivity extends AppCompatActivity{
 
@@ -22,25 +23,29 @@ public class BeginActivity extends AppCompatActivity{
 
     private void initEvent() {
 
-        findViewById(R.id.act_begin_start).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.action1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(BeginActivity.this,CameraActivity.class));
+                Configure.setCurrentMode(1);
+                startActivity(new Intent(BeginActivity.this,TestActivity.class));
             }
         });
 
 
-        findViewById(R.id.act_begin_start).setOnLongClickListener(new View.OnLongClickListener() {
+        findViewById(R.id.action2).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                startActivity(new Intent(BeginActivity.this,ScoreActivity.class));
+                Configure.setCurrentMode(2);
+                startActivity(new Intent(BeginActivity.this,TestActivity.class));
                 return true;
             }
         });
 
-        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.action3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Configure.setCurrentMode(3);
                 startActivity(new Intent(BeginActivity.this,TestActivity.class));
             }
         });

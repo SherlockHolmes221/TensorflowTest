@@ -109,7 +109,7 @@ public class Camera2BasicFragmentTest extends Fragment
   private static final int PERMISSIONS_REQUEST_CODE = 1;
 
   private final Object lock = new Object();
-  private boolean runClassifier = false;
+  private boolean runClassifier = true;
   private boolean checkedPermissions = false;
 
   /** Max preview width that is guaranteed by Camera2 API */
@@ -122,18 +122,7 @@ public class Camera2BasicFragmentTest extends Fragment
 
   private ImageView actionImage;
 
-  private VideoView videoView;
-  private int curPic = 0;
-  Timer timer = new Timer();
-  boolean isSetVisableGone = false;
-
-  float[] score = new float[10];
-
-  boolean isShowVideo = false;
-
-  boolean isShowToast = false;
-
-  private ImageView excellentIv;
+  //private VideoView videoView;
 
     /**
      * 显示动作框
@@ -153,167 +142,13 @@ public class Camera2BasicFragmentTest extends Fragment
       getActivity().runOnUiThread(new Runnable() {		// UI thread
           @Override
           public void run() {
-              //Log.e(TAG, "run: ");
-              if(isSetVisableGone) {
-                  stop();
-                  actionImage.setVisibility(View.GONE);
-
-                  if(curPic == 0){
-                      if(isShowVideo){
-                          float sum  = 0;
-                          for(int i = 0 ; i < 10 ;i++){
-                              sum += score[i] * 100;
-                          }
-                          sum /= 10.0;
-                          //最后一张结束了，处理成绩，跳转了
-                          Intent intent = new Intent();
-                          intent.putExtra("score",sum);
-                          intent.setClass(getActivity(), ScoreActivity.class);
-                          startActivity(intent);
-                          getActivity().finish();
-                      }else {
-//                          //这里是video开始的
-//                          videoView.setVisibility(View.VISIBLE);
-//                          videoView.start();
-//                          //Log.e(TAG, "videoView start");
-//                          //test
-//                          startTimer(39000);
-//                          isShowVideo = true;
-                          startTimer(5000);
-                          curPic = 1;
-                      }
-
-                  }
-                  else if(curPic == 1){
-                      if(isShowVideo){
-                          startTimer(38000);
-                      }else {
-                          startTimer(5000);
-                      }
-
-                  }
-                  else if(curPic == 2){
-                      if(isShowVideo)
-                          startTimer(2000);
-                      else
-                          startTimer(5000);
-                  }
-                  else if(curPic == 3){
-                      if(isShowVideo)
-                          startTimer(9000);
-                      else
-                          startTimer(5000);
-
-                  }
-                  else if(curPic == 4){
-                      if(isShowVideo)
-                          startTimer(68000);
-                      else
-                          startTimer(5000);
-
-                  }
-                  else if(curPic == 5){
-                      if(isShowVideo)
-                          startTimer(17000);
-                      else
-                          startTimer(5000);
-
-                  }
-                  else if(curPic == 6){
-                      if(isShowVideo)
-                          startTimer(5000);
-                      else
-                          startTimer(5000);
-
-                  }
-                  else if(curPic == 7){
-                      if(isShowVideo)
-                          startTimer(33000);
-                      else
-                          startTimer(5000);
-
-                  }
-                  else if(curPic == 8){
-                      if(isShowVideo)
-                          startTimer(22000);
-                      else
-                          startTimer(5000);
-
-                  }
-                  else if(curPic == 9){
-                      if(isShowVideo)
-                          startTimer(10000);
-                      else
-                          startTimer(5000);
-
-                  }
-              }
-
-              else {
-                  begin();
-                  actionImage.setVisibility(View.VISIBLE);
-                  if(curPic == 0){
-                      actionImage.setImageResource(R.drawable.img_1);
-                  }else if(curPic == 1){
-                      actionImage.setImageResource(R.drawable.img_2);
-                  }
-                  else if(curPic == 2){
-                      actionImage.setImageResource(R.drawable.img_3);
-                  }
-                  else if(curPic == 3){
-                      actionImage.setImageResource(R.drawable.img_4);
-                  }
-                  else if(curPic == 4){
-                      actionImage.setImageResource(R.drawable.img_5);
-                  }
-                  else if(curPic == 5){
-                      actionImage.setImageResource(R.drawable.img_6);
-                  }
-                  else if(curPic == 6){
-                      actionImage.setImageResource(R.drawable.img_7);
-                  }
-                  else if(curPic == 7){
-                      actionImage.setImageResource(R.drawable.img_8);
-                  }
-                  else if(curPic == 8){
-                      actionImage.setImageResource(R.drawable.img_9);
-                  }
-                  else if(curPic == 9){
-                      actionImage.setImageResource(R.drawable.img_10);
-                  }
-                  curPic = (curPic+1) % 10;
-
-                  if(isShowVideo){
-                      if(curPic == 6){
-                          startTimer(3000);
-                      }else if(curPic == 0){
-                          startTimer(10000);
-                      }else
-                          startTimer(5000);
-                  }else
-                      startTimer(5000);
-
-              }
-
-              isSetVisableGone =  ! isSetVisableGone;
+              actionImage.setVisibility(View.VISIBLE);
+              actionImage.setImageResource(R.drawable.img_1);
           }
 
       });
   }
 
-  private void begin(){
-      synchronized (lock) {
-          runClassifier = true;
-          isShowToast = true;
-      }
-  }
-
-  private void stop(){
-      synchronized (lock) {
-          //change
-         // runClassifier = false;
-      }
-  }
 
     /**
      * 执行定时任务
@@ -606,21 +441,8 @@ public class Camera2BasicFragmentTest extends Fragment
     changeCameraBtn = view.findViewById(R.id.change_camera);
 
     actionImage = view.findViewById(R.id.action_image);
-    videoView = view.findViewById(R.id.video_view);
-
-      excellentIv  = view.findViewById(R.id.img_excellent);
-
-    String uri = "android.resource://" + getActivity().getPackageName() + "/" + R.raw.yoga;
-    videoView.setVideoURI(Uri.parse(uri));
-
     startTimer(2000);
 
-      //这里是video开始的
-//      videoView.setVisibility(View.VISIBLE);
-//    videoView.start();
-//    //Log.e(TAG, "videoView start");
-//    //test
-//    startTimer(39000);
 
     changeCameraBtn.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -876,9 +698,9 @@ public class Camera2BasicFragmentTest extends Fragment
     backgroundThread.start();
     backgroundHandler = new Handler(backgroundThread.getLooper());
     // Start the classification train & load an initial model.
-//    synchronized (lock) {
-//      runClassifier = true;
-//    }
+    synchronized (lock) {
+      runClassifier = true;
+    }
     backgroundHandler.post(periodicClassify);
   }
 
@@ -1107,12 +929,12 @@ public class Camera2BasicFragmentTest extends Fragment
       public void run() {
         try {
           Log.i(TAG, Thread.currentThread().getName() + " startImageClassifier");
-         // Bitmap croppedBitmap = getScaleBitmap(bitmap, INPUT_SIZE);
 
           final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
 
-//          showResult(String.format("results: %s", results));
-          countScore(results);
+         // showResult(String.format("results: %s", results));
+            showResult(results.get(0).getTitle()+" " + results.get(0).getConfidence());
+
 
         }catch (Exception e){
           e.printStackTrace();
@@ -1122,101 +944,6 @@ public class Camera2BasicFragmentTest extends Fragment
       }
     });
   }
-
-    private void countScore(List<Classifier.Recognition> result) {
-      Log.e(TAG, String.valueOf(curPic));
-      for(Classifier.Recognition recognition: result){
-          Log.e(TAG, recognition.getId() + recognition.getConfidence());
-      }
-
-      Log.e(TAG, "countScore: "+result.get(0).getId());
-
-      if(curPic == 1){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-
-      }else if(curPic == 2){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-
-      }else if(curPic == 3){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-      }
-      else if(curPic == 4){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-      }
-      else if(curPic == 5){
-            showResult(result.get(0).getId() +""+
-                    result.get(0).getTitle()+" " +
-                    result.get(0).getConfidence());
-      }
-      else if(curPic == 6){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-      }
-      else if(curPic == 7){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-      }
-      else if(curPic == 8){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-      }
-      else if(curPic == 9){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-      }
-      else if(curPic == 0){
-          showResult(result.get(0).getId() +""+
-                  result.get(0).getTitle()+" " +
-                  result.get(0).getConfidence());
-      }
-
-
-      Log.e("isShowToast", String.valueOf(isShowToast));
-
-      if(result.get(0).getId().equals("1") && curPic == 1){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
-      }else if(result.get(0).getId().equals("7") && curPic == 2){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
-      }else if(result.get(0).getId().equals("0") && curPic == 3){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
-      }else if(result.get(0).getId().equals("2") && curPic == 4){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
-      }else if(result.get(0).getId().equals("4") && curPic == 5){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
-      }else if(result.get(0).getId().equals("5") && curPic == 6){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
-      }else if(result.get(0).getId().equals("3") && curPic == 7){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
-      }else if(result.get(0).getId().equals("9") && curPic == 8){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
-      }else if(result.get(0).getId().equals("8") && curPic == 9){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("excellent" );
-      }else if(result.get(0).getId().equals("6") && curPic == 0){
-          score[curPic]  = Math.max(score[curPic],result.get(0).getConfidence()) ;
-//          showToast("good" );
-      }
-    }
 
 
 }
