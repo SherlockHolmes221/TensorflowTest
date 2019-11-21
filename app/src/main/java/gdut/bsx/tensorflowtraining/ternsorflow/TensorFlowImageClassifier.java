@@ -34,7 +34,7 @@ import java.util.Vector;
 
 /** A classifier specialized to label images using TensorFlow. */
 public class TensorFlowImageClassifier implements Classifier {
-    private static final String TAG = "TensorFlowClassifier";
+    private static final String TAG = TensorFlowImageClassifier.class.getSimpleName();
 
     // Only return this many results with at least this confidence.
     private static final int MAX_RESULTS = 3;
@@ -77,6 +77,7 @@ public class TensorFlowImageClassifier implements Classifier {
             String modelFilename, String labelFilename,
             int inputSize, int imageMean, float imageStd,
             String inputName, String outputName) {
+
         TensorFlowImageClassifier c = new TensorFlowImageClassifier();
         c.inputName = inputName;
         c.outputName = outputName;

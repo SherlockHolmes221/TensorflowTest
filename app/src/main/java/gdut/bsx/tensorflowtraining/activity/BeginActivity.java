@@ -33,12 +33,11 @@ public class BeginActivity extends AppCompatActivity{
         });
 
 
-        findViewById(R.id.action2).setOnLongClickListener(new View.OnLongClickListener() {
+        findViewById(R.id.action2).setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 Configure.setCurrentMode(2);
                 startActivity(new Intent(BeginActivity.this,TestActivity.class));
-                return true;
             }
         });
 

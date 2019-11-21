@@ -138,16 +138,16 @@ public class Camera2BasicFragment extends Fragment
 
     /**
      * 显示动作框
-     * 第一个动作在39-44s
-     * 第二个动作在1min23-1min28
-     * 第三个动作在1min30-1min35
-     * 第四个动作在1min45-1min50
-     * 第五个动作在2min58-3min03
-     * 第六个动作在3min20-3min25
-     * 第七个动作在3min30-3min35
-     * 第八个动作在4min08-4min13
-     * 第九个动作在4min35-4min40
-     * 第十个动作在4min53-4min58
+     * 第一个动作在39-44s         42
+     * 第二个动作在1min23-1min28  25
+     * 第三个动作在1min30-1min35  32
+     * 第四个动作在1min45-1min50  48
+     * 第五个动作在2min58-3min03  180
+     * 第六个动作在3min20-3min25  23
+     * 第七个动作在3min30-3min35  33
+     * 第八个动作在4min08-4min13  10
+     * 第九个动作在4min35-4min40  38
+     * 第十个动作在4min53-4min58  55
      *
      */
   private void showChangePic(){

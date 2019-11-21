@@ -17,6 +17,7 @@ package gdut.bsx.tensorflowtraining.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import gdut.bsx.tensorflowtraining.R;
 import gdut.bsx.tensorflowtraining.fragment.Camera2BasicFragmentTest;
@@ -24,6 +25,7 @@ import gdut.bsx.tensorflowtraining.fragment.Camera2BasicFragmentTest;
 /** Main {@code Activity} class for the Camera app. */
 public class TestActivity extends Activity {
 
+  private static final String TAG = "TestActivity";
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -35,5 +37,13 @@ public class TestActivity extends Activity {
           .replace(R.id.container, Camera2BasicFragmentTest.newInstance())
           .commit();
     }
+
+  }
+
+  @Override
+  public void onBackPressed() {
+    finish();
+    Log.e(TAG,"onBackPressed" );
+    super.onBackPressed();
   }
 }
